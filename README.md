@@ -1,5 +1,7 @@
 # launchpad-api
 
+[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-vue.svg)](https://forthebadge.com)
+
 ## Project setup
 ```
 yarn install

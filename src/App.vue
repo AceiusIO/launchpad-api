@@ -5,7 +5,7 @@
         <h1>Enter Code</h1>
       </v-card-title>
       <v-card-text>
-        <v-text-field label="API Key" counter></v-text-field>
+        <v-text-field label="API Key" outlined clearable v-model="keyInput"></v-text-field>
         <v-card-actions class="justify-center">
           <v-btn :loading="loading" :disabled="loading" color="red" class="ma-2 white--text" @click="checkAPI();" v-model="passkeyInput">
             Launch <v-icon dark>mdi-rocket-launch</v-icon>
@@ -36,7 +36,7 @@ export default {
   },
 
   data: () => ({
-    passKey: '12346',
+    passKey: '1234',
     loader: null,
     loading: false,
     stage1: true,
@@ -57,25 +57,25 @@ export default {
   methods: {
     checkAPI: function () {
       this.loader = 'loading'
-      //if (this.passkeyInput == this.passKey) {
+      if (this.keyInput == this.passKey) {
         this.stage1 = false
         this.stage2 = true
         this.apiResponse = "Waiting"
-      /*} else {
+      } else {
         alert('API Key is invalid');
-      }*/
+      }
       
     },
     confirmCheckAPI: function () {
-      this.httpGet('https://status.mojang.com/check');
+      this.httpGet('10.0.0.51:80/fire');
     },
     httpGet: function (Url) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", Url, false);
-    xmlHttp.send(null);
-    console.log(xmlHttp.responseText);
-    this.apiResponse = "Sucess!"
-    //return xmlHttp.responseText;
+      const xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("GET", Url, false);
+      xmlHttp.send(null);
+      console.log(xmlHttp.responseText);
+      this.apiResponse = "Sucess!"
+      //return xmlHttp.responseText;
     },
   }
 };
