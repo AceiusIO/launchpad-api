@@ -23,7 +23,10 @@
       </v-card-text>
     </v-card>
     <v-card>
-      <v-card-text>&copy; 2021 AceiusIO, all rights reserved. <br /> <strong>DO NOT TAMPER WITH THIS PAGE!!!</strong></v-card-text>
+      <v-card-text>
+        <p>&copy; 2021 AceiusIO, all rights reserved. <br /> <strong>DO NOT TAMPER WITH THIS PAGE!!!</strong></p>
+        <a href='tel:+12063930652'><v-btn><v-icon>mdi-fire-alert</v-icon>TAP HERE IN EMERGENCY</v-btn></a>
+      </v-card-text>
     </v-card>
   </v-app>
 </template>
