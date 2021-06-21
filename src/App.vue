@@ -5,10 +5,10 @@
         <h1>Enter Code</h1>
       </v-card-title>
       <v-card-text>
-        <v-text-field label="API Key" outlined clearable autocomplete="off" v-model="keyInput"></v-text-field>
+        <v-text-field label="Launch code" outlined clearable autocomplete="off" v-model="keyInput"></v-text-field>
         <v-card-actions class="justify-center">
           <v-btn :loading="loading" :disabled="loading" color="red" class="ma-2 white--text" @click="checkAPI();">
-            Launch <v-icon>mdi-rocket-launch</v-icon>
+            Authorize <v-icon>mdi-lock-open</v-icon>
           </v-btn>
         </v-card-actions>
       </v-card-text>
@@ -21,6 +21,9 @@
       <v-card-text>
         <h3>{{apiResponse}}</h3>
       </v-card-text>
+    </v-card>
+    <v-card>
+      <v-card-text>&copy; 2021 AceiusIO, all rights reserved. <br /> <strong>DO NOT TAMPER WITH THIS PAGE!!!</strong></v-card-text>
     </v-card>
   </v-app>
 </template>
@@ -63,6 +66,7 @@ export default {
         this.stage1 = false
         this.stage2 = true
         this.apiResponse = "Waiting"
+        console.clear();
       } else {
         alert('API Key is invalid');
       }
@@ -73,7 +77,7 @@ export default {
       this.loader = 'loading'
       this.apiResponse = 'Preparing'
       if (this.keyInput == this.passKey) {
-        this.httpGet('http://api.mojang.com/');
+        this.httpGet('https://status.mojang.com/check');
       } else {
         alert('DANGER: Authentication failed, but trigger fired!');
       }
@@ -83,10 +87,13 @@ export default {
       this.apiResponse = "Initalizing XML Request"
       const xmlHttp = new XMLHttpRequest();
       this.apiResponse = "Requesting Data"
-      xmlHttp.open("GET", Url, false);
-      xmlHttp.send(null);
-      this.apiResponse = "<v-icon>mdi-checkmark</v-icon>Sucess!"
-      console.log(xmlHttp.responseText);
+      xmlHttp.open("GET", Url);
+      xmlHttp.send();
+      xmlHttp.onreadystatechange = (e) => {
+        console.log(xmlHttp.responseText);
+        console.log('[DEBUG]: ' + e);
+      }
+      this.apiResponse = "Sucess!"
     },
   }
 };
