@@ -1,0 +1,24 @@
+const data = require("./data/auth.txt");
+
+module.exports = {
+  mode: "development",
+  entry: "./src/App.vue",
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "build")
+  },
+  plugins: [],
+  devServer: {
+    before: function(app) {
+      app.get("/auth", function(req, res) {
+        res.json(data);
+      });
+    },
+    open: true,
+    port: 3000
+  },
+  resolve: {
+    extensions: [".js"]
+  },
+  module: {}
+};
