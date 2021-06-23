@@ -40,7 +40,7 @@ export default {
   },
 
   data: () => ({
-    url: 'localhost:7000',
+    //url: 'localhost:7000',
     disabled: false,
     passKey: null,
     keyInput: null,
@@ -68,28 +68,35 @@ export default {
   },
   
   methods: {
+    sleep: function (milliseconds) {
+      return new Promise(resolve => setTimeout(resolve, milliseconds));
+    },
+
     checkAPI: function () {
       this.validateKey(); //this.url
       this.loader = 'loading'
       this.apiResponse = "Waiting"
       this.fired = 'red'
 
-      if (this.keyInput == this.passKey) {
+      setTimeout(this.verifyInput, 1000);
+    },
+
+    verifyInput: function () {
+      if ('accepted' == this.passKey) {
         this.stage1 = false
         this.stage2 = true
         this.apiResponse = "Waiting"
       } else {
-        //setTimeout(this.checkAPI, 300);
-        alert('wrong code bucko')
+        //setTimeout(this.validateKey, 1000);
+        alert('Incorrect passcode');
       }
-      
     },
 
     fire: function () {
       this.loader = 'loading'
       this.apiResponse = 'Preparing'
       if ('accepted' == this.passKey) {
-        this.httpGet('http://' + this.url + '/fire');
+        this.httpGet('http://localhost:7000/fire');
       } else {
         alert('Incorrect passcode');
       }
@@ -115,29 +122,18 @@ export default {
       this.apiResponse = "Sucess!"
     },
 
-    validateKey: function (url) {
+    validateKey: function () {
       const xmlHttp = new XMLHttpRequest();
-      xmlHttp.open("GET", 'http://' + url + '/auth');
+      xmlHttp.open("GET", 'http://localhost:7000/auth');
       xmlHttp.setRequestHeader("Authorization", this.keyInput);
       xmlHttp.send();
-      /*xmlHttp.onreadystatechange = (e) => {
+      xmlHttp.onreadystatechange = (e) => {
+        //await this.sleep(999);
         console.log(xmlHttp.responseText);
         this.passKey = (xmlHttp.responseText);
         console.log('[Auth] PassKey was ' + this.passKey);
         console.log('[DEBUG]: ' + e);
-      }*/
-      xmlHttp.onreadystatechange = function () {
-      // In local files, status is 0 upon success in Mozilla Firefox
-      if(xmlHttp.readyState === XMLHttpRequest.DONE) {
-        let status = xmlHttp.status;
-        if (status == 200) {
-            console.log(xmlHttp.responseText);
-            this.passKey = (xmlHttp.responseText);
-          } else {
-            console.error('there was an error with the request in this.getkey.ifreadyxhrstate.else');
-          }
-        }
-      };
+      }
     },
   }
 }
