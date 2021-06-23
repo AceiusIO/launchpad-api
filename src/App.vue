@@ -69,11 +69,10 @@ export default {
   
   methods: {
     checkAPI: function () {
-      this.getKey(this.url);
+      this.validateKey(); //this.url
       this.loader = 'loading'
       this.apiResponse = "Waiting"
       this.fired = 'red'
-      this.loader = 'loading'
 
       if (this.keyInput == this.passKey) {
         this.stage1 = false
@@ -116,7 +115,7 @@ export default {
       this.apiResponse = "Sucess!"
     },
 
-    getKey: function (url) {
+    validateKey: function (url) {
       const xmlHttp = new XMLHttpRequest();
       xmlHttp.open("GET", 'http://' + url + '/auth');
       xmlHttp.setRequestHeader("Authorization", this.keyInput);
@@ -130,16 +129,15 @@ export default {
       xmlHttp.onreadystatechange = function () {
       // In local files, status is 0 upon success in Mozilla Firefox
       if(xmlHttp.readyState === XMLHttpRequest.DONE) {
-        var status = xmlHttp.status;
-        if (status === 0 || (status >= 200 && status < 400)) {
-        // The request has been completed successfully
+        let status = xmlHttp.status;
+        if (status == 200) {
             console.log(xmlHttp.responseText);
+            this.passKey = (xmlHttp.responseText);
           } else {
             console.error('there was an error with the request in this.getkey.ifreadyxhrstate.else');
           }
         }
       };
-      return xmlHttp.responseText
     },
   }
 }
