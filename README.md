@@ -1,7 +1,7 @@
 # launchpad-api
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/made-with-vue.svg)](https://forthebadge.com)
-https://img.shields.io/badge/Customization%20Options-Scuffed%20lol-yellowgreen
+[![shields-io](https://img.shields.io/badge/Customization%20Options-Scuffed%20lol-yellowgreen)
 
 
 ## Project setup
