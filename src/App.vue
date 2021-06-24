@@ -30,17 +30,9 @@
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld';
-
 export default {
   name: 'App',
-
-  components: {
-    //HelloWorld,
-  },
-
   data: () => ({
-    //url: 'localhost:7000',
     disabled: false,
     passKey: null,
     keyInput: null,
@@ -53,60 +45,45 @@ export default {
     fired: 'red',
     icon: 'mdi-rocket-launch',
   }),
-
   watch: {
       loader () {
         const l = this.loader
         this[l] = !this[l]
-
         this.disabled = true
-
         setTimeout(() => (this[l] = false, this.disabled = false), 1000)
-
         this.loader = null
       },
   },
-  
   methods: {
-    sleep: function (milliseconds) {
-      return new Promise(resolve => setTimeout(resolve, milliseconds));
-    },
-
     checkAPI: function () {
-      this.validateKey(); //this.url
+      this.validateKey();
       this.loader = 'loading'
       this.apiResponse = "Waiting"
       this.fired = 'red'
-
       setTimeout(this.verifyInput, 1000);
     },
-
     verifyInput: function () {
       if ('accepted' == this.passKey) {
         this.stage1 = false
         this.stage2 = true
         this.apiResponse = "Waiting"
       } else {
-        //setTimeout(this.validateKey, 1000);
         alert('Incorrect passcode');
       }
     },
-
     fire: function () {
       this.loader = 'loading'
       this.apiResponse = 'Preparing'
       if ('accepted' == this.passKey) {
-        this.httpGet('http://localhost:7000/fire');
+        this.httpGet('http://localhost:80/fire');
       } else {
         alert('Incorrect passcode');
       }
     },
-
     httpGet: function (Url) {
       this.apiResponse = "Initalizing XML Request"
       const xmlHttp = new XMLHttpRequest();
       this.apiResponse = "Requesting Data"
-      //xml start
       xmlHttp.open("GET", Url);
       xmlHttp.setRequestHeader("Authorization", this.keyInput);
       xmlHttp.send();
@@ -114,21 +91,16 @@ export default {
         console.log(xmlHttp.responseText);
         console.log('[DEBUG]: ' + e);
       }
-      //xml end
-      //setTimeout(() => (this.stage3 = false, this.stage4 = true), 1001);
       this.fired = 'green'
       this.icon = 'mdi-check'
-      //setTimeout(() => (this.apiResponse = "Sucess!"), 1001);
       this.apiResponse = "Sucess!"
     },
-
     validateKey: function () {
       const xmlHttp = new XMLHttpRequest();
-      xmlHttp.open("GET", 'http://localhost:7000/auth');
+      xmlHttp.open("GET", 'http://localhost:80/auth');
       xmlHttp.setRequestHeader("Authorization", this.keyInput);
       xmlHttp.send();
       xmlHttp.onreadystatechange = (e) => {
-        //await this.sleep(999);
         console.log(xmlHttp.responseText);
         this.passKey = (xmlHttp.responseText);
         console.log('[Auth] PassKey was ' + this.passKey);
